@@ -4,6 +4,13 @@
 -- * add extra plugins
 -- * disable/enabled LazyVim plugins
 -- * override the configuration of LazyVim plugins
+-- require("mason").setup({
+--   registries = {
+--     "github:dvad924/mason-registry",
+--     "github:mason-org/mason-registry",
+--   },
+-- })
+
 return {
   {
     "christoomey/vim-tmux-navigator",
@@ -22,12 +29,21 @@ return {
       { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
     },
   },
+  -- add nord
+  { "shaunsingh/nord.nvim" },
+  -- Configure LazyVim to load nord
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = "nord",
+    },
+  },
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function(_, opts)
       table.insert(opts.sections.lualine_x, "😄")
-      opts.options.theme = "catppuccin"
+      opts.options.theme = "nord"
     end,
   },
   {
@@ -35,11 +51,13 @@ return {
     lazy = true,
     version = false, -- last release is way too old
   },
+  { "towolf/vim-helm", ft = "helm" },
   { -- configure LSPs
     "neovim/nvim-lspconfig",
     opts = {
       -- make sure mason installs the server
       servers = {
+        helm_ls = {},
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
           capabilities = {
@@ -76,18 +94,6 @@ return {
             },
           },
         },
-      },
-      setup = {
-        yamlls = function()
-          -- Neovim < 0.10 does not have dynamic registration for formatting
-          if vim.fn.has("nvim-0.10") == 0 then
-            require("lazyvim.util").lsp.on_attach(function(client, _)
-              if client.name == "yamlls" then
-                client.server_capabilities.documentFormattingProvider = true
-              end
-            end)
-          end
-        end,
       },
     },
   },
