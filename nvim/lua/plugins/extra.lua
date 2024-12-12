@@ -30,12 +30,12 @@ return {
     },
   },
   -- add nord
-  { "shaunsingh/nord.nvim" },
+  -- { "shaunsingh/nord.nvim" },
   -- Configure LazyVim to load nord
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "nord",
+      colorscheme = "catppuccin",
     },
   },
   {
@@ -43,7 +43,7 @@ return {
     event = "VeryLazy",
     opts = function(_, opts)
       table.insert(opts.sections.lualine_x, "😄")
-      opts.options.theme = "nord"
+      opts.options.theme = "catppuccin-frappe"
     end,
   },
   {
